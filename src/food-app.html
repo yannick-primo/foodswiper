@@ -14455,6 +14455,53 @@
     }
   </style>
 
+  <style id="swipe-layout-tuning">
+    /* Topbar (Verlauf / Alle-Viral / Filter) ganz nach oben */
+    body.swipe-screen .swipe-topbar {
+      top: env(safe-area-inset-top, 0px);
+      padding: 6px 12px;
+      gap: 6px;
+    }
+    body.swipe-screen .swipe-filter-btn { min-height: 34px; padding: 6px 10px; font-size: 11.5px; }
+    body.swipe-screen .swipe-source-tab { min-height: 28px; font-size: 11.5px; }
+    body.swipe-screen .card-badges { top: 54px; }
+    body.swipe-screen .start-pref-reset-row {
+      top: calc(env(safe-area-inset-top, 0px) + 46px);
+    }
+
+    /* Aktionsknöpfe als seitliche Leiste rechts, klar getrennt vom Infofeld */
+    body.swipe-screen .card-buttons {
+      position: fixed;
+      z-index: 12;
+      right: 14px;
+      top: auto;
+      left: auto;
+      bottom: calc(78px + 12px + var(--swipe-info-h, 190px) + 14px);
+      flex-direction: column-reverse;
+      gap: 12px;
+    }
+    body.swipe-screen .card-buttons button { width: 54px; height: 54px; }
+    @media (max-height: 720px) {
+      body.swipe-screen .card-buttons { bottom: calc(78px + 12px + var(--swipe-info-h, 170px) + 10px); }
+      body.swipe-screen .card-buttons button { width: 48px; height: 48px; }
+    }
+  </style>
+  <script>
+    (function () {
+      function syncInfoHeight() {
+        var info = document.querySelector('body.swipe-screen .swipe-container .card-info');
+        if (!info) return;
+        document.documentElement.style.setProperty('--swipe-info-h', Math.round(info.getBoundingClientRect().height) + 'px');
+      }
+      var t;
+      function schedule() { clearTimeout(t); t = setTimeout(syncInfoHeight, 60); }
+      window.addEventListener('resize', schedule);
+      document.addEventListener('DOMContentLoaded', schedule);
+      new MutationObserver(schedule).observe(document.documentElement, { childList: true, subtree: true });
+      schedule();
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@600;700&display=swap">
