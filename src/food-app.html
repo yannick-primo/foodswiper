@@ -13728,7 +13728,9 @@
     })();
 
     function renderWhy() {
-      var card = document.querySelector('.recipe-card .card-info');
+      var ghostWhy = document.querySelector('.swipe-ghost-card .reco-why');
+      if (ghostWhy) ghostWhy.remove();
+      var card = document.querySelector('.recipe-card:not(.swipe-ghost-card) .card-info');
       if (!card) return;
       var tags = card.querySelector('.card-meta-tags');
       if (!tags) return;
