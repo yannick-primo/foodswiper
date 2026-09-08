@@ -13747,10 +13747,7 @@
       box.className = 'reco-why';
       box.dataset.recipe = String(rec.id);
       box.innerHTML =
-        '<div class="reco-why-head">Warum für dich<span class="reco-why-score">Match ' + score100(rec) + '</span></div>' +
-        '<div class="reco-why-list">' + rs.map(function (x) {
-          return '<span class="reco-why-chip">' + x.icon + ' ' + String(x.text).replace(/[<>&]/g, '') + '</span>';
-        }).join('') + '</div>';
+        '<div class="reco-why-head">✨ Für dich empfohlen</div>';
       tags.parentNode.insertBefore(box, tags.nextSibling);
     }
 
