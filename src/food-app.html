@@ -14453,7 +14453,7 @@
   </style>
 
   <style id="swipe-layout-tuning">
-    /* Topbar (Verlauf / Alle-Viral / Filter) ganz nach oben */
+    /* Topbar (Verlauf / Alle-Viral / Filter) ganz nach oben, TikTok-Stil */
     body.swipe-screen .swipe-topbar {
       top: env(safe-area-inset-top, 0px);
       padding: 6px 12px;
@@ -14461,43 +14461,48 @@
     }
     body.swipe-screen .swipe-filter-btn { min-height: 34px; padding: 6px 10px; font-size: 11.5px; }
     body.swipe-screen .swipe-source-tab { min-height: 28px; font-size: 11.5px; }
-    body.swipe-screen .card-badges { top: 54px; }
+
+    /* Reiter (Küche / Bonusinfo) direkt unter der Topbar, ohne Überlappung */
+    body.swipe-screen .card-badges { top: calc(env(safe-area-inset-top, 0px) + 50px); }
     body.swipe-screen .start-pref-reset-row {
-      top: calc(env(safe-area-inset-top, 0px) + 46px);
+      top: calc(env(safe-area-inset-top, 0px) + 92px);
     }
 
-    /* Aktionsknöpfe als seitliche Leiste rechts, klar getrennt vom Infofeld */
-    body.swipe-screen .card-buttons {
-      position: fixed;
-      z-index: 12;
-      right: 14px;
-      top: auto;
-      left: auto;
-      bottom: calc(78px + 12px + var(--swipe-info-h, 190px) + 14px);
-      flex-direction: column;
-      gap: 12px;
+    /* Info-Block unten: immer gleich groß, nichts springt beim Swipen */
+    body.swipe-screen .swipe-container .card-info {
+      height: 172px;
+      overflow: hidden;
     }
-    body.swipe-screen .card-buttons button { width: 54px; height: 54px; }
+    body.swipe-screen .card-title {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      max-width: calc(100% - 112px);
+      margin-bottom: 8px;
+    }
+    body.swipe-screen .card-meta-tags { flex-wrap: nowrap; overflow: hidden; margin-bottom: 8px; }
+    body.swipe-screen .reco-why { margin: 0; }
+
+    /* X und Herz im Info-Block, rechts neben dem Gerichtsnamen */
+    body.swipe-screen .card-buttons {
+      position: absolute;
+      z-index: 8;
+      right: 12px;
+      top: 14px;
+      left: auto;
+      bottom: auto;
+      flex-direction: row;
+      gap: 8px;
+    }
+    body.swipe-screen .card-buttons button { width: 46px; height: 46px; }
+    body.swipe-screen .card-buttons button svg { width: 20px; height: 20px; }
     @media (max-height: 720px) {
-      body.swipe-screen .card-buttons { bottom: calc(78px + 12px + var(--swipe-info-h, 170px) + 10px); }
-      body.swipe-screen .card-buttons button { width: 48px; height: 48px; }
+      body.swipe-screen .swipe-container .card-info { height: 148px; }
+      body.swipe-screen .card-buttons button { width: 42px; height: 42px; }
+      body.swipe-screen .card-title { max-width: calc(100% - 100px); }
     }
   </style>
-  <script>
-    (function () {
-      function syncInfoHeight() {
-        var info = document.querySelector('body.swipe-screen .swipe-container .card-info');
-        if (!info) return;
-        document.documentElement.style.setProperty('--swipe-info-h', Math.round(info.getBoundingClientRect().height) + 'px');
-      }
-      var t;
-      function schedule() { clearTimeout(t); t = setTimeout(syncInfoHeight, 60); }
-      window.addEventListener('resize', schedule);
-      document.addEventListener('DOMContentLoaded', schedule);
-      new MutationObserver(schedule).observe(document.documentElement, { childList: true, subtree: true });
-      schedule();
-    })();
-  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
