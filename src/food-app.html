@@ -12206,7 +12206,7 @@
         '.swipe-ind-like { right: 22px; }',
         '.swipe-ind-nope { left: 22px; }',
         '.swipe-ghost-card { position: absolute; z-index: 0; overflow: hidden;',
-        '  pointer-events: none; transform: scale(.965) translateZ(0); opacity: .92;',
+        '  pointer-events: none; transform: translateZ(0); opacity: 1;',
         '  will-change: transform, opacity; }',
         '.swipe-container > .recipe-card:not(.swipe-ghost-card) { position: relative; z-index: 1; }',
 
@@ -12358,8 +12358,8 @@
             nope.style.opacity = 0;
           }
           if (ghost) {
-            ghost.style.transform = 'scale(' + (0.94 + p * 0.06) + ') translateZ(0)';
-            ghost.style.opacity = 0.65 + p * 0.35;
+            ghost.style.transform = 'translateZ(0)';
+            ghost.style.opacity = 1;
           }
         }
         function schedule() {
@@ -12373,8 +12373,8 @@
           like.style.opacity = nope.style.opacity = 0;
           if (ghost) {
             ghost.style.transition = 'transform .32s ease, opacity .32s ease';
-            ghost.style.transform = 'scale(.94) translateZ(0)';
-            ghost.style.opacity = .65;
+            ghost.style.transform = 'translateZ(0)';
+            ghost.style.opacity = 1;
           }
         }
 
@@ -12386,7 +12386,7 @@
           card.style.opacity = '0.25';
           if (ghost) {
             ghost.style.transition = 'transform ' + OUT_MS + 'ms ease, opacity ' + OUT_MS + 'ms ease';
-            ghost.style.transform = 'scale(1) translateZ(0)';
+            ghost.style.transform = 'translateZ(0)';
             ghost.style.opacity = '1';
           }
           setTimeout(function () { action(); }, OUT_MS - 20);

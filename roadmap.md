@@ -5,4 +5,4 @@
 - [x] Metadaten vollständig und überlappungsfrei darstellen; X und grünen Haken sauber integrieren
 - [x] „Für dich empfohlen“ vollständig entfernen
 - [x] Bei übersprungenen Startfragen den vollständigen Rezeptbestand verfügbar machen
-- [ ] Reset-Button für gewählte Startfilter beibehalten und Darstellung prüfen
+- [x] Reset-Button für gewählte Startfilter beibehalten und Darstellung prüfen
