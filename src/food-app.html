@@ -10172,8 +10172,8 @@
                     <button class="btn-pass" aria-label="Rezept überspringen" onclick="app.handlePass()">
                       <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                     </button>
-                    <button class="btn-like" aria-label="Rezept favorisieren" onclick="app.handleLike()">
-                      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                     <button class="btn-like" aria-label="Rezept annehmen" onclick="app.handleLike()">
+                       <svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                     </button>
                   </div>
                 </div>
@@ -10187,8 +10187,8 @@
               <button class="swipe-filter-btn" onclick="app.toggleSwipeHistorySheet()">Verlauf</button>
 
               <div class="swipe-source-tabs" role="tablist" aria-label="Vorschlagsquelle">
-                <button class="swipe-source-tab ${swipeSrc === 'all' ? 'active' : ''}" onclick="app.setSwipeSource('all')">Alle</button>
-                <button class="swipe-source-tab ${swipeSrc === 'viral' ? 'active' : ''}" onclick="app.setSwipeSource('viral')">🔥 Viral</button>
+                 <button class="swipe-source-tab ${swipeSrc === 'all' ? 'active' : ''}" onclick="app.setSwipeSource('all')">For You</button>
+                 <button class="swipe-source-tab ${swipeSrc === 'viral' ? 'active' : ''}" onclick="app.setSwipeSource('viral')">Viral</button>
               </div>
               <button class="swipe-filter-btn ${filterCount > 0 ? 'has-active' : ''}" onclick="app.toggleSwipeFiltersPanel()">
                 ${this.state.premiumUnlocked ? '' : '👑 '}Filter${filterCount > 0 ? ` (${filterCount})` : ''}
@@ -12206,7 +12206,7 @@
         '.swipe-ind-like { right: 22px; }',
         '.swipe-ind-nope { left: 22px; }',
         '.swipe-ghost-card { position: absolute; z-index: 0; overflow: hidden;',
-        '  pointer-events: none; transform: scale(.965) translateZ(0); opacity: .92;',
+        '  pointer-events: none; transform: translateZ(0); opacity: 1;',
         '  will-change: transform, opacity; }',
         '.swipe-container > .recipe-card:not(.swipe-ghost-card) { position: relative; z-index: 1; }',
 
@@ -12231,7 +12231,7 @@
               id = id.split('_').slice(3).join('_') || id.split('_').pop();
             }
             var rec = app.getRecipeById ? app.getRecipeById(id) : null;
-            if (rec && rec.image) { rec.__ghostInf = inf; return rec; }
+            if (rec && rec.image) { rec.__ghostInf = inf || !!rec.isInfluencer; return rec; }
           }
         } catch (e) {}
         return null;
@@ -12318,8 +12318,8 @@
                 '<button class="btn-pass" tabindex="-1" aria-hidden="true">' +
                   '<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>' +
                 '</button>' +
-                '<button class="btn-like" tabindex="-1" aria-hidden="true">' +
-                  '<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>' +
+                 '<button class="btn-like" tabindex="-1" aria-hidden="true">' +
+                   '<svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>' +
                 '</button>' +
               '</div>' +
             '</div>';
@@ -12358,8 +12358,8 @@
             nope.style.opacity = 0;
           }
           if (ghost) {
-            ghost.style.transform = 'scale(' + (0.94 + p * 0.06) + ') translateZ(0)';
-            ghost.style.opacity = 0.65 + p * 0.35;
+            ghost.style.transform = 'translateZ(0)';
+            ghost.style.opacity = 1;
           }
         }
         function schedule() {
@@ -12373,8 +12373,8 @@
           like.style.opacity = nope.style.opacity = 0;
           if (ghost) {
             ghost.style.transition = 'transform .32s ease, opacity .32s ease';
-            ghost.style.transform = 'scale(.94) translateZ(0)';
-            ghost.style.opacity = .65;
+            ghost.style.transform = 'translateZ(0)';
+            ghost.style.opacity = 1;
           }
         }
 
@@ -12386,7 +12386,7 @@
           card.style.opacity = '0.25';
           if (ghost) {
             ghost.style.transition = 'transform ' + OUT_MS + 'ms ease, opacity ' + OUT_MS + 'ms ease';
-            ghost.style.transform = 'scale(1) translateZ(0)';
+            ghost.style.transform = 'translateZ(0)';
             ghost.style.opacity = '1';
           }
           setTimeout(function () { action(); }, OUT_MS - 20);
@@ -13713,47 +13713,6 @@
       invalidate: function () { cache = Object.create(null); }
     };
 
-    /* ---------------- "Warum empfohlen"-Leiste in die Swipe-Karte einsetzen ---------------- */
-    (function injectWhyStyles() {
-      if (document.getElementById('reco-why-style')) return;
-      var st = document.createElement('style');
-      st.id = 'reco-why-style';
-      st.textContent =
-        '.reco-why{display:flex;flex-direction:column;gap:6px;margin:2px 0 10px;}' +
-        '.reco-why-head{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.2px;color:var(--text-muted);text-transform:uppercase;}' +
-        '.reco-why-score{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:999px;background:var(--primary,#ff6b35);color:#fff;}' +
-        '.reco-why-list{display:flex;flex-wrap:wrap;gap:5px;}' +
-        '.reco-why-chip{font-size:11px;font-weight:600;padding:4px 9px;border-radius:999px;background:rgba(255,107,53,.10);color:var(--text,#222);border:1px solid rgba(255,107,53,.28);white-space:nowrap;}';
-      document.head.appendChild(st);
-    })();
-
-    function renderWhy() {
-      var ghostWhy = document.querySelector('.swipe-ghost-card .reco-why');
-      if (ghostWhy) ghostWhy.remove();
-      var card = document.querySelector('.recipe-card:not(.swipe-ghost-card) .card-info');
-      if (!card) return;
-      var tags = card.querySelector('.card-meta-tags');
-      if (!tags) return;
-      var rec = null;
-      try {
-        var info = app.getSwipeDeck ? app.getSwipeDeck() : null;
-        if (info && !info.ad && !info.empty) rec = info.recipe;
-      } catch (e) {}
-      if (!rec || !rec.id) return;
-      var old = card.querySelector('.reco-why');
-      if (old && old.dataset.recipe === String(rec.id)) return;
-      if (old) old.remove();
-      var rs = reasons(rec);
-      if (!rs.length) return;
-      var box = document.createElement('div');
-      box.className = 'reco-why';
-      box.dataset.recipe = String(rec.id);
-      box.innerHTML =
-        '<div class="reco-why-head">✨ Für dich empfohlen</div>';
-      tags.parentNode.insertBefore(box, tags.nextSibling);
-    }
-
-
     /* =========================================================
        PATCHES: bestehende Interaktionen zusätzlich als Lernsignale
        ========================================================= */
@@ -13972,7 +13931,9 @@
 
     function finishOnboarding(skipped) {
       S.onboarded = true;
-      if (!skipped) {
+      if (skipped) {
+        S.initial = { goals: [], cuisines: [], timePref: '', nutrition: [], budget: '' };
+      } else {
         S.initial = {
           goals: draft.goals.slice(),
           cuisines: draft.cuisines.slice(),
@@ -14069,7 +14030,6 @@
     patch('render', function (orig) {
       var res = orig();
       try { if (!S.onboarded) maybeShowOnboarding(); } catch (e) {}
-      try { if (app.state.activeTab === 'swipe') renderWhy(); } catch (e) {}
       return res;
     });
 
@@ -14458,51 +14418,59 @@
     /* Topbar (Verlauf / Alle-Viral / Filter) ganz nach oben, TikTok-Stil */
     body.swipe-screen .swipe-topbar {
       top: env(safe-area-inset-top, 0px);
-      padding: 6px 12px;
+      padding: 2px 10px;
       gap: 6px;
     }
-    body.swipe-screen .swipe-filter-btn { min-height: 34px; padding: 6px 10px; font-size: 11.5px; }
-    body.swipe-screen .swipe-source-tab { min-height: 28px; font-size: 11.5px; }
+    body.swipe-screen .swipe-filter-btn { min-height: 30px; padding: 5px 9px; font-size: 11.5px; }
+    body.swipe-screen .swipe-source-tab { min-height: 26px; font-size: 11.5px; }
 
     /* Reiter (Küche / Bonusinfo) direkt unter der Topbar, ohne Überlappung */
-    body.swipe-screen .card-badges { top: calc(env(safe-area-inset-top, 0px) + 50px); }
+    body.swipe-screen .card-badges { top: calc(env(safe-area-inset-top, 0px) + 39px); }
     body.swipe-screen .start-pref-reset-row {
-      top: calc(env(safe-area-inset-top, 0px) + 92px);
+      top: calc(env(safe-area-inset-top, 0px) + 74px);
     }
 
     /* Info-Block unten: immer gleich groß, nichts springt beim Swipen */
     body.swipe-screen .swipe-container .card-info {
-      height: 172px;
+      height: 196px;
       overflow: hidden;
     }
     body.swipe-screen .card-title {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
       max-width: calc(100% - 112px);
+      min-height: 52px;
       margin-bottom: 8px;
+      font-size: 21px;
+      line-height: 1.2;
+      overflow-wrap: anywhere;
     }
-    body.swipe-screen .card-meta-tags { flex-wrap: nowrap; overflow: hidden; margin-bottom: 8px; }
-    body.swipe-screen .card-meta-tags .tag { flex: 0 0 auto; white-space: nowrap; }
-    body.swipe-screen .reco-why { margin: 0; }
+    body.swipe-screen .card-meta-tags {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, max-content));
+      align-content: start;
+      justify-content: start;
+      gap: 6px;
+      margin: 0;
+      max-height: 66px;
+      overflow: hidden;
+    }
+    body.swipe-screen .card-meta-tags .tag { white-space: nowrap; }
 
     /* X und Herz im Info-Block, rechts neben dem Gerichtsnamen */
     body.swipe-screen .card-buttons {
       position: absolute;
       z-index: 8;
       right: 12px;
-      top: 14px;
+      top: 16px;
       left: auto;
       bottom: auto;
       flex-direction: row;
       gap: 8px;
     }
-    body.swipe-screen .card-buttons button { width: 46px; height: 46px; }
+    body.swipe-screen .card-buttons button { width: 44px; height: 44px; }
     body.swipe-screen .card-buttons button svg { width: 20px; height: 20px; }
     @media (max-height: 720px) {
-      body.swipe-screen .swipe-container .card-info { height: 148px; }
-      body.swipe-screen .card-buttons button { width: 42px; height: 42px; }
+      body.swipe-screen .swipe-container .card-info { height: 174px; }
+      body.swipe-screen .card-buttons button { width: 40px; height: 40px; }
       body.swipe-screen .card-title { max-width: calc(100% - 100px); }
     }
   </style>

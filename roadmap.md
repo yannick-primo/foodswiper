@@ -1,0 +1,8 @@
+- [x] Obere Leiste fast an den Bildrand schieben; „Alle“ in „For You“ ändern und Flamme bei Viral entfernen
+- [x] Länder-/Influencer-Tags auf dem Bild lassen und passend unter der oberen Leiste nach oben schieben
+- [x] Infoleiste aller aktuellen und vorgeladenen Karten gleich hoch und vollständig rendern
+- [x] Rezeptnamen ohne Auslassungspunkte vollständig darstellen
+- [x] Metadaten vollständig und überlappungsfrei darstellen; X und grünen Haken sauber integrieren
+- [x] „Für dich empfohlen“ vollständig entfernen
+- [x] Bei übersprungenen Startfragen den vollständigen Rezeptbestand verfügbar machen
+- [x] Reset-Button für gewählte Startfilter beibehalten und Darstellung prüfen
