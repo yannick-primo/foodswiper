@@ -11109,20 +11109,8 @@
     app.render = function(){
       origRender();
 
-      // Swipe card: inject small star badge into meta tags
-      try {
-        const deck = app.getSwipeDeck && app.getSwipeDeck();
-        if (deck && deck.recipe) {
-          const tags = document.querySelector('.swipe-container .card-meta-tags');
-          if (tags && !tags.querySelector('.rating-tag')) {
-            const s = getStats(deck.recipe.id);
-            const span = document.createElement('span');
-            span.className = 'rating-tag';
-            span.innerHTML = s.count > 0 ? `★ ${formatAvg(s.avg)}` : '★ neu';
-            tags.appendChild(span);
-          }
-        }
-      } catch(e){}
+      // Swipe card: gelbes Stern/Rating-Badge entfernt — gewünscht ohne gelbe Hinweise
+      // (keine Injection des rating-tag in die Swipe-Karte)
 
       // Favorites: add rating line under meta
       try {
@@ -14454,12 +14442,12 @@
       flex-direction: row;
       align-items: center;
       justify-content: flex-start;
-      gap: 6px;
+      gap: 5px;
       margin: 0;
       max-height: 26px;
       overflow: hidden;
     }
-    body.swipe-screen .card-meta-tags .tag { white-space: nowrap; flex: 0 0 auto; padding: 4px 8px; font-size: 10.5px; }
+    body.swipe-screen .card-meta-tags .tag { white-space: nowrap; flex: 0 0 auto; padding: 3px 7px; font-size: 10px; }
 
     /* X und Herz im Info-Block, rechts neben dem Gerichtsnamen */
     body.swipe-screen .card-buttons {
