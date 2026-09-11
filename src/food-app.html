@@ -14430,16 +14430,20 @@
       top: calc(env(safe-area-inset-top, 0px) + 70px);
     }
 
-    /* Info-Block unten: immer gleich groß, nichts springt beim Swipen */
+    /* Info-Block unten: schlank, gleich groß, mehr Glasoptik */
     body.swipe-screen .swipe-container .card-info {
-      height: 196px;
+      height: 112px;
       overflow: hidden;
+      padding: 14px 15px 12px;
+      background: color-mix(in oklab, var(--bg-dark) 34%, transparent);
+      backdrop-filter: blur(30px) saturate(165%);
+      border-color: rgba(245, 239, 227, 0.12);
     }
     body.swipe-screen .card-title {
-      max-width: calc(100% - 112px);
-      min-height: 52px;
-      margin-bottom: 8px;
-      font-size: 21px;
+      max-width: calc(100% - 104px);
+      min-height: 43px;
+      margin: 0 0 5px;
+      font-size: 18px;
       line-height: 1.2;
       overflow-wrap: anywhere;
     }
@@ -14452,28 +14456,28 @@
       justify-content: flex-start;
       gap: 6px;
       margin: 0;
-      max-height: 30px;
+      max-height: 26px;
       overflow: hidden;
     }
-    body.swipe-screen .card-meta-tags .tag { white-space: nowrap; flex: 0 0 auto; }
+    body.swipe-screen .card-meta-tags .tag { white-space: nowrap; flex: 0 0 auto; padding: 4px 8px; font-size: 10.5px; }
 
     /* X und Herz im Info-Block, rechts neben dem Gerichtsnamen */
     body.swipe-screen .card-buttons {
       position: absolute;
       z-index: 8;
       right: 12px;
-      top: 16px;
+      top: 12px;
       left: auto;
       bottom: auto;
       flex-direction: row;
       gap: 8px;
     }
-    body.swipe-screen .card-buttons button { width: 44px; height: 44px; }
-    body.swipe-screen .card-buttons button svg { width: 20px; height: 20px; }
+    body.swipe-screen .card-buttons button { width: 40px; height: 40px; }
+    body.swipe-screen .card-buttons button svg { width: 18px; height: 18px; }
     @media (max-height: 720px) {
-      body.swipe-screen .swipe-container .card-info { height: 174px; }
-      body.swipe-screen .card-buttons button { width: 40px; height: 40px; }
-      body.swipe-screen .card-title { max-width: calc(100% - 100px); }
+      body.swipe-screen .swipe-container .card-info { height: 104px; }
+      body.swipe-screen .card-title { font-size: 16.5px; min-height: 40px; }
+      body.swipe-screen .card-buttons button { width: 36px; height: 36px; }
     }
   </style>
 
