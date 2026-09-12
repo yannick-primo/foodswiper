@@ -10181,10 +10181,11 @@
           }
 
           const swipeSrc = this.state.swipeSource || 'all';
+          const cuisinePill = currentRecipe ? `<span class="swipe-cuisine-pill">${escapeHtml(this.getCuisineLabel(currentRecipe.category))}</span>` : '';
           content = `
             <div class="swipe-topbar">
               <button class="swipe-filter-btn" onclick="app.toggleSwipeHistorySheet()">Verlauf</button>
-
+              ${cuisinePill}
               <div class="swipe-source-tabs" role="tablist" aria-label="Vorschlagsquelle">
                  <button class="swipe-source-tab ${swipeSrc === 'all' ? 'active' : ''}" onclick="app.setSwipeSource('all')">For You</button>
                  <button class="swipe-source-tab ${swipeSrc === 'viral' ? 'active' : ''}" onclick="app.setSwipeSource('viral')">Viral</button>
