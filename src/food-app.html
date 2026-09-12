@@ -10156,7 +10156,6 @@
                 <div class="image-wrapper">
                   <div class="card-badges">
                     ${isInf ? '<span class="influencer-tag">⭐ Influencer</span>' : ''}
-                    <span class="card-category">${escapeHtml(this.getCuisineLabel(currentRecipe.category))}</span>
                   </div>
                   <img decoding="async" fetchpriority="high" src="${currentRecipe.image}" class="card-image" alt="${escapeHtml(currentRecipe.title)}" data-loaded="0" onload="this.dataset.loaded='1'" onerror="this.onerror=null;this.dataset.loaded='1';this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800'">
                 </div>
@@ -10182,10 +10181,11 @@
           }
 
           const swipeSrc = this.state.swipeSource || 'all';
+          const cuisinePill = currentRecipe ? `<span class="swipe-cuisine-pill">${escapeHtml(this.getCuisineLabel(currentRecipe.category))}</span>` : '';
           content = `
             <div class="swipe-topbar">
               <button class="swipe-filter-btn" onclick="app.toggleSwipeHistorySheet()">Verlauf</button>
-
+              ${cuisinePill}
               <div class="swipe-source-tabs" role="tablist" aria-label="Vorschlagsquelle">
                  <button class="swipe-source-tab ${swipeSrc === 'all' ? 'active' : ''}" onclick="app.setSwipeSource('all')">For You</button>
                  <button class="swipe-source-tab ${swipeSrc === 'viral' ? 'active' : ''}" onclick="app.setSwipeSource('viral')">Viral</button>
@@ -10636,13 +10636,13 @@
                   outline: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>',
                   filled: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.5 4a6.5 6.5 0 1 0 4.2 11.6l4.8 4.8 1.4-1.4-4.8-4.8A6.5 6.5 0 0 0 10.5 4z"/></svg>'
                 },
-                swipe: {
-                  outline: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.75L12 3l9 6.75"/><path d="M5 10.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9.5"/><path d="M10 21V12h4v9"/></svg>',
-                  filled: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2l-9.5 7.1A1 1 0 0 0 2 11v9a2 2 0 0 0 2 2h5v-7h6v7h5a2 2 0 0 0 2-2v-9a1 1 0 0 0-.5-.7L12 3.2z"/></svg>'
-                },
                 favorites: {
                   outline: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.7-4.4-9.2-7.8C.5 10.5 2.4 6 6 6c2 0 3.8 1.2 4.6 2.8h.8C12.2 7.2 14 6 16 6c3.6 0 5.5 4.5 3.2 7.2C16.7 16.6 12 21 12 21z"/></svg>',
                   filled: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.4-9.2-7.8C.5 10.5 2.4 6 6 6c2 0 3.8 1.2 4.6 2.8h.8C12.2 7.2 14 6 16 6c3.6 0 5.5 4.5 3.2 7.2C16.7 16.6 12 21 12 21z"/></svg>'
+                },
+                swipe: {
+                  outline: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.75L12 3l9 6.75"/><path d="M5 10.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9.5"/><path d="M10 21V12h4v9"/></svg>',
+                  filled: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2l-9.5 7.1A1 1 0 0 0 2 11v9a2 2 0 0 0 2 2h5v-7h6v7h5a2 2 0 0 0 2-2v-9a1 1 0 0 0-.5-.7L12 3.2z"/></svg>'
                 },
                 social: {
                   outline: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
@@ -12286,9 +12286,6 @@
             '<div class="image-wrapper">' +
               '<div class="card-badges">' +
                 (nextRec.__ghostInf ? '<span class="influencer-tag">⭐ Influencer</span>' : '') +
-                '<span class="card-category">' +
-                esc(app.getCuisineLabel ? app.getCuisineLabel(nextRec.category) : (nextRec.category || '')) +
-                '</span>' +
               '</div>' +
               '<img class="card-image" data-loaded="1" decoding="async" alt="" src="' + esc(nextRec.image) + '">' +
             '</div>' +
@@ -14403,19 +14400,35 @@
   </style>
 
   <style id="swipe-layout-tuning">
-    /* Topbar (Verlauf / For You-Viral / Filter) ganz nah an den oberen Bildrand, TikTok-Stil */
+    /* Topbar (Verlauf / Land / For You-Viral / Filter) ganz nah an den oberen Bildrand, TikTok-Stil */
     body.swipe-screen .swipe-topbar {
-      top: max(0px, calc(env(safe-area-inset-top, 0px) - 6px));
-      padding: 0 10px 2px;
+      top: 0px;
+      padding: 2px 8px;
       gap: 6px;
     }
     body.swipe-screen .swipe-filter-btn { min-height: 28px; padding: 4px 9px; font-size: 11.5px; }
     body.swipe-screen .swipe-source-tab { min-height: 24px; font-size: 11.5px; }
+    /* Länder-Tag direkt in der Topbar-Zeile, gleiche Glas-Formatierung wie Karten-Badges */
+    body.swipe-screen .swipe-cuisine-pill {
+      background: color-mix(in oklab, var(--bg-dark) 48%, transparent);
+      border: 1px solid rgba(245, 239, 227, 0.18);
+      color: var(--cream);
+      backdrop-filter: blur(18px) saturate(145%);
+      box-shadow: 0 8px 24px rgba(0,0,0,.22);
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      pointer-events: none;
+    }
 
-    /* Reiter (Küche / Bonusinfo) direkt unter der Topbar, ohne Überlappung */
-    body.swipe-screen .card-badges { top: calc(env(safe-area-inset-top, 0px) + 36px); }
+    /* Reiter (Influencer-Badge) direkt unter der Topbar, ohne Überlappung */
+    body.swipe-screen .card-badges { top: calc(env(safe-area-inset-top, 0px) + 40px); }
     body.swipe-screen .start-pref-reset-row {
-      top: calc(env(safe-area-inset-top, 0px) + 70px);
+      top: calc(env(safe-area-inset-top, 0px) + 40px);
     }
 
     /* Info-Block unten: schlank, gleich groß, mehr Glasoptik */
