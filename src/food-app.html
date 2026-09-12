@@ -14403,19 +14403,35 @@
   </style>
 
   <style id="swipe-layout-tuning">
-    /* Topbar (Verlauf / For You-Viral / Filter) ganz nah an den oberen Bildrand, TikTok-Stil */
+    /* Topbar (Verlauf / Land / For You-Viral / Filter) ganz nah an den oberen Bildrand, TikTok-Stil */
     body.swipe-screen .swipe-topbar {
-      top: max(0px, calc(env(safe-area-inset-top, 0px) - 6px));
-      padding: 0 10px 2px;
+      top: 0px;
+      padding: 2px 8px;
       gap: 6px;
     }
     body.swipe-screen .swipe-filter-btn { min-height: 28px; padding: 4px 9px; font-size: 11.5px; }
     body.swipe-screen .swipe-source-tab { min-height: 24px; font-size: 11.5px; }
+    /* Länder-Tag direkt in der Topbar-Zeile, gleiche Glas-Formatierung wie Karten-Badges */
+    body.swipe-screen .swipe-cuisine-pill {
+      background: color-mix(in oklab, var(--bg-dark) 48%, transparent);
+      border: 1px solid rgba(245, 239, 227, 0.18);
+      color: var(--cream);
+      backdrop-filter: blur(18px) saturate(145%);
+      box-shadow: 0 8px 24px rgba(0,0,0,.22);
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      pointer-events: none;
+    }
 
-    /* Reiter (Küche / Bonusinfo) direkt unter der Topbar, ohne Überlappung */
-    body.swipe-screen .card-badges { top: calc(env(safe-area-inset-top, 0px) + 36px); }
+    /* Reiter (Influencer-Badge) direkt unter der Topbar, ohne Überlappung */
+    body.swipe-screen .card-badges { top: calc(env(safe-area-inset-top, 0px) + 40px); }
     body.swipe-screen .start-pref-reset-row {
-      top: calc(env(safe-area-inset-top, 0px) + 70px);
+      top: calc(env(safe-area-inset-top, 0px) + 40px);
     }
 
     /* Info-Block unten: schlank, gleich groß, mehr Glasoptik */
